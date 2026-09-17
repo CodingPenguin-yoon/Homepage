@@ -1,4 +1,5 @@
 ---
+import '@fontsource-variable/inter';
 import { Icon } from 'astro-icon/components';
 import PageLayout from '~/layouts/PageLayout.astro';
 import type { HomeProject } from '~/data/home';
@@ -12,7 +13,11 @@ export interface Props {
 
 const { project, relatedProjects = [] } = Astro.props;
 const narrative = project.detail.narrative;
-const productSectionNumber = narrative?.proof ? '06' : narrative ? '05' : '03';
+const serviceNames: Record<string, string> = {
+  heimdall: '자동 배포 플랫폼',
+  gjallar: 'Proxmox 자동화 콘솔',
+  klepaas: '자연어 기반 Kubernetes 운영 플랫폼',
+};
 const outcomeLabel = narrative?.outcomeLabel ?? (narrative?.proof ? '07 / Current & next' : '06 / Current & next');
 const metadata = {
   title: `${project.name} | Cho YunHo`,
@@ -24,40 +29,34 @@ const metadata = {
 <PageLayout metadata={metadata}>
   <header slot="header" class="case-header">
     <div class="case-header-inner">
-      <a class="case-back" href="/#projects">
+      <a class="case-back" href="/#projects" aria-label="프로젝트 목록으로">
         <Icon name="tabler:arrow-left" />
-        <span>Projects</span>
+        <span>프로젝트</span>
       </a>
 
       <a class="case-brand" href="/" aria-label="홈으로 이동">
-        <span>YH</span>
-        <strong>CHO YUNHO</strong>
+        <strong>조윤호</strong>
+        <span>Yunho Cho</span>
       </a>
 
-      <a
-        class="case-repo-icon"
-        href={project.repository}
-        target="_blank"
-        rel="noreferrer"
-        aria-label={`${project.name} GitHub 저장소 열기`}
-      >
-        <Icon name="tabler:brand-github" />
-      </a>
+      <nav class="case-document-nav" aria-label="문서 메뉴">
+        <a href="/portfolio">Portfolio</a>
+        <a href="/resume">Resume</a>
+        <a
+          class="case-repo-icon"
+          href={project.repository}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`${project.name} GitHub 저장소 열기`}
+        >
+          <Icon name="tabler:brand-github" />
+        </a>
+      </nav>
     </div>
   </header>
 
   <article class:list={['case-study', `case-tone-${project.tone}`]}>
     <section class="case-hero" aria-labelledby="case-title">
-      {
-        project.visual ? (
-          <img class="case-hero-image" src={project.visual.src} alt="" aria-hidden="true" fetchpriority="high" />
-        ) : null
-      }
-      <div class="case-hero-overlay" aria-hidden="true"></div>
-      <div class="case-hero-steps" aria-hidden="true">
-        {project.detail.steps.map((step) => <span>{step.title}</span>)}
-      </div>
-
       <div class="case-hero-inner">
         <div class="case-kicker">
           <span>Project {project.index}</span>
@@ -66,8 +65,7 @@ const metadata = {
 
         <div class="case-hero-copy">
           <h1 id="case-title">{project.name}</h1>
-          <p class="case-statement">{project.statement}</p>
-          <p class="case-description">{project.description}</p>
+          <p class="case-statement">{serviceNames[project.id] ?? project.statement}</p>
         </div>
 
         <div class="case-hero-footer">
@@ -87,12 +85,39 @@ const metadata = {
           </dl>
 
           <a class="case-scroll" href={narrative ? '#context' : '#why'}>
-            Case study
+            개발 과정 보기
             <Icon name="tabler:arrow-down" />
           </a>
         </div>
       </div>
     </section>
+
+    {
+      project.visual ? (
+        <section class="case-section case-product" aria-labelledby="product-title">
+          <div class="case-section-inner">
+            <div class="case-section-heading case-product-heading">
+              <div>
+                <p class="case-label">Product</p>
+                <h2 id="product-title">서비스 화면</h2>
+              </div>
+              <a href={project.repository} target="_blank" rel="noreferrer">
+                GitHub
+                <Icon name="tabler:arrow-up-right" />
+              </a>
+            </div>
+
+            <figure class="case-product-frame">
+              <img src={project.visual.src} alt={project.visual.alt} loading="eager" />
+              <figcaption>
+                <span>{project.name}</span>
+                <span>{project.visual.alt}</span>
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+      ) : null
+    }
 
     {
       narrative ? (
@@ -267,33 +292,6 @@ const metadata = {
           </section>
         </>
       )
-    }
-
-    {
-      project.visual ? (
-        <section class="case-section case-product" aria-labelledby="product-title">
-          <div class="case-section-inner">
-            <div class="case-section-heading case-product-heading">
-              <div>
-                <p class="case-label">{productSectionNumber} / Product</p>
-                <h2 id="product-title">Product view.</h2>
-              </div>
-              <a href={project.repository} target="_blank" rel="noreferrer">
-                GitHub
-                <Icon name="tabler:arrow-up-right" />
-              </a>
-            </div>
-
-            <figure class="case-product-frame">
-              <img src={project.visual.src} alt={project.visual.alt} loading="lazy" />
-              <figcaption>
-                <span>{project.name}</span>
-                <span>{project.visual.alt}</span>
-              </figcaption>
-            </figure>
-          </div>
-        </section>
-      ) : null
     }
 
     {

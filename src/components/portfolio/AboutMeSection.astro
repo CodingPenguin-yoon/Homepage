@@ -2,10 +2,16 @@
   <div class="about-inner">
     <p class="about-label">About me</p>
     <div class="about-copy">
-      <h2 id="about-title">배포 자동화에서 시작해,<br />운영 안전성까지 설계합니다.</h2>
+      <h2 id="about-title">필요해서 만들고,<br />직접 쓰면서 고칩니다.</h2>
       <p>
-        Heimdall에서는 Git 기반 preview deployment를 제품으로 만들고, K-Le-PaaS에서는 Kubernetes 운영 API를
-        구현했습니다. Gjallar에서는 승인과 사후 상태 확인이 필요한 인프라 작업을 설계했습니다.
+        게임 서버 운영에서 출발해, 서버와 네트워크를 직접 구축하고 여러 개인 서비스를 배포·운영해 왔습니다. 서비스가
+        늘어나면서 VM의 사양과 IP를 정하고, 실행 환경과 접속 경로를 준비하는 일이 반복됐습니다. 그 과정에서 겪은 불편을
+        줄이기 위해 직접 쓰는 도구를 만들고 있습니다.
+      </p>
+      <p>
+        처음에는 VM 생성부터 앱 배포까지 한 번에 처리하려 했습니다. 이후 VM 관리는 Gjallar로, 앱 배포는 Heimdall로
+        역할을 나누고 두 도구를 실제로 사용할 수 있도록 개발을 이어 갔습니다. 앞으로는 동료들의 개발과 운영에도 도움이
+        되는 플랫폼을 만들고 싶습니다.
       </p>
     </div>
   </div>
@@ -13,7 +19,6 @@
 
 <style>
   .about-page {
-    min-height: 78svh;
     scroll-margin-top: 0;
     border-bottom: 1px solid #111214;
     background: #f4f1e9;
@@ -22,13 +27,12 @@
 
   .about-inner {
     display: grid;
-    min-height: 78svh;
     width: min(100% - 2rem, 92rem);
     grid-template-columns: 0.7fr 2fr;
     gap: 4rem;
     align-items: center;
     margin: 0 auto;
-    padding: 4.5rem 0;
+    padding: 5.5rem 0;
   }
 
   .about-label {
@@ -45,10 +49,10 @@
     margin: 0;
     color: inherit;
     font-family: var(--aw-font-sans), sans-serif;
-    font-size: clamp(2.8rem, 4.6vw, 4.8rem);
+    font-size: clamp(2.25rem, 3.8vw, 3.75rem);
     font-weight: 600;
     letter-spacing: -0.04em;
-    line-height: 1.05;
+    line-height: 1.2;
     word-break: keep-all;
   }
 

@@ -8,6 +8,7 @@
     "node": "^18.17.1 || ^20.3.0 || >= 21.0.0"
   },
   "scripts": {
+    "sync:career-documents": "node scripts/sync-career-documents.mjs",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",

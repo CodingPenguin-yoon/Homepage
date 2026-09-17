@@ -1,1226 +1,479 @@
 ---
+import '@fontsource-variable/inter';
 import { Icon } from 'astro-icon/components';
-import AboutMeSection from '~/components/portfolio/AboutMeSection.astro';
-import HomeLabArchitecture from '~/components/portfolio/HomeLabArchitecture.astro';
 import PageLayout from '~/layouts/PageLayout.astro';
-import { homeHero, homeNavigation, homeProjects } from '~/data/home';
+import { homeProjects } from '~/data/home';
 import { portfolioProfile } from '~/data/portfolio';
 
 const metadata = {
   title: 'Yunho Cho | Platform Engineer',
-  description:
-    'Git 기반 preview deployment와 안전한 인프라 운영 도구를 만드는 플랫폼 엔지니어 조윤호의 포트폴리오입니다.',
+  description: '인프라를 이해하고, 필요한 도구를 만드는 개발자 조윤호. 직접 만들고 운영한 프로젝트를 소개합니다.',
   ignoreTitleTemplate: true,
 };
-
 const githubHref = portfolioProfile.socials.github || 'https://github.com/CodingPenguin-yoon';
-const emailHref = portfolioProfile.email ? `mailto:${portfolioProfile.email}` : undefined;
-const featuredProjects = homeProjects;
 ---
 
 <PageLayout metadata={metadata}>
-  <header slot="header" class="home-header">
-    <div class="header-inner">
-      <a class="home-brand" href="#top" aria-label="맨 위로 이동">
-        <span class="brand-mark">YH</span>
-        <span class="brand-name">CHO YUNHO</span>
-      </a>
-
-      <nav class="desktop-nav" aria-label="주요 네비게이션">
-        {homeNavigation.map((item) => <a href={item.href}>{item.label}</a>)}
-      </nav>
-
-      <div class="header-actions">
-        <a href={githubHref} target="_blank" rel="noreferrer" aria-label="GitHub 열기" title="GitHub">
-          <Icon name="tabler:brand-github" />
-        </a>
-        <a href={portfolioProfile.resumePageHref} aria-label="이력서 열기" title="이력서">
-          <Icon name="tabler:file-text" />
-        </a>
-      </div>
-    </div>
+  <header slot="header" class="home-header" id="top">
+    <a class="brand" href="#top" aria-label="조윤호 홈">조윤호<span>Yunho Cho</span></a>
+    <nav aria-label="주요 메뉴">
+      <a href="#projects">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="/portfolio">Portfolio</a>
+      <a href="/resume">Resume</a>
+    </nav>
   </header>
 
   <div class="home-page">
-    <section id="top" class="home-hero" aria-labelledby="hero-title">
-      <img class="hero-background" src="/projects/heimdall.png" alt="" aria-hidden="true" fetchpriority="high" />
-      <div class="hero-shade" aria-hidden="true"></div>
-
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <p class="hero-eyebrow">{homeHero.eyebrow}</p>
-          <h1 id="hero-title">
-            {homeHero.headline.map((line) => <span>{line}</span>)}
-          </h1>
-          <p class="hero-description">{homeHero.description}</p>
-
-          <div class="hero-actions">
-            <a href="/projects/heimdall">
-              Heimdall 보기
-              <Icon name="tabler:arrow-right" />
-            </a>
-            <a href={portfolioProfile.resumePageHref}>
-              이력서
-              <Icon name="tabler:arrow-up-right" />
-            </a>
-          </div>
-        </div>
-
-        <nav class="project-index" aria-label="프로젝트 바로가기">
-          {
-            featuredProjects.map((project) => (
-              <a class={`index-${project.tone}`} href={`#${project.id}`}>
-                <span>{project.index}</span>
-                <strong>{project.name}</strong>
-              </a>
-            ))
-          }
-        </nav>
-      </div>
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title">Yunho Cho<span class="period">.</span></h1>
+      <p class="hero-role">Platform Engineer</p>
     </section>
 
-    <AboutMeSection />
-
-    <section id="projects" class="projects-intro" aria-labelledby="projects-title">
-      <div class="section-inner intro-layout">
-        <p class="section-label">Selected projects / 2025-2026</p>
-        <h2 id="projects-title">Projects.</h2>
-      </div>
-    </section>
-
-    {
-      featuredProjects.map((project, projectIndex) => (
-        <section
-          id={project.id}
-          class:list={['project-band', `tone-${project.tone}`, { reverse: projectIndex % 2 === 1 }]}
-          aria-labelledby={`${project.id}-title`}
-        >
-          <div class="project-inner">
-            <div class="project-copy">
-              <div class="project-meta">
-                <span>{project.index}</span>
-                <span>{project.category}</span>
-              </div>
-
-              <h2 id={`${project.id}-title`}>
-                <a class="project-title-link" href={project.caseStudyHref}>
+    <section id="projects" class="work-section" aria-labelledby="work-title">
+      <div class="section-heading"><h2 id="work-title">Selected work</h2><span>2025 — 2026</span></div>
+      {
+        homeProjects.map((project) => (
+          <section class="project" id={project.id} aria-labelledby={`${project.id}-title`}>
+            <span class="project-number">{project.index}</span>
+            <div class="project-main">
+              <p class="project-category">{project.category}</p>
+              <h3 id={`${project.id}-title`}>
+                <a href={project.caseStudyHref}>
                   {project.name}
-                </a>
-              </h2>
-              <p class="project-statement">{project.statement}</p>
-              <p class="project-description">{project.description}</p>
-
-              <ul class="project-tags" aria-label={`${project.name} 기술 스택`}>
-                {project.tags.map((tag) => (
-                  <li>{tag}</li>
-                ))}
-              </ul>
-
-              <div class="project-actions">
-                <a class="project-link" href={project.caseStudyHref}>
-                  Case study
-                  <Icon name="tabler:arrow-right" />
-                </a>
-                <a class="project-link" href={project.repository} target="_blank" rel="noreferrer">
-                  GitHub
                   <Icon name="tabler:arrow-up-right" />
                 </a>
+              </h3>
+              <p class="project-statement">{project.statement}</p>
+            </div>
+            <div class="project-summary">
+              <p>{project.description}</p>
+              <div class="project-links">
+                <>
+                  <a href={project.caseStudyHref}>
+                    프로젝트 보기 <Icon name="tabler:arrow-right" />
+                  </a>
+                  <a href={project.repository} target="_blank" rel="noreferrer">
+                    GitHub <Icon name="tabler:arrow-up-right" />
+                  </a>
+                </>
               </div>
             </div>
+          </section>
+        ))
+      }
+    </section>
 
-            <div class="project-visual">
-              <a class="visual-link" href={project.caseStudyHref} aria-label={`${project.name} 케이스 스터디 보기`}>
-                {project.flow ? (
-                  <div class="flow-board" aria-label={`${project.name} 처리 흐름`}>
-                    <div class="flow-toolbar">
-                      <span class="flow-lights" aria-hidden="true">
-                        <i />
-                        <i />
-                        <i />
-                      </span>
-                      <span>{project.flowLabel ?? 'PROJECT FLOW'}</span>
-                    </div>
-                    <ol>
-                      {project.flow.map((step, index) => (
-                        <li>
-                          <span>0{index + 1}</span>
-                          <strong>{step}</strong>
-                        </li>
-                      ))}
-                    </ol>
-                    <div class="flow-result">
-                      <Icon name="tabler:circle-check-filled" />
-                      <span>{project.flowResult ?? 'Flow complete'}</span>
-                    </div>
-                  </div>
-                ) : project.visual ? (
-                  <figure class="product-frame">
-                    <img
-                      src={project.visual.src}
-                      alt={project.visual.alt}
-                      loading="lazy"
-                      class:list={[{ 'object-top': project.visual.position === 'top' }]}
-                    />
-                    <figcaption>
-                      <span>{project.name}</span>
-                      <span>Product view</span>
-                    </figcaption>
-                  </figure>
-                ) : null}
-                <span class="visual-cta">
-                  Case study
-                  <Icon name="tabler:arrow-up-right" />
-                </span>
-              </a>
-            </div>
-          </div>
-        </section>
-      ))
-    }
-
-    <HomeLabArchitecture />
+    <section id="about" class="about-section" aria-labelledby="about-title">
+      <p class="section-label">About me</p>
+      <div class="about-copy">
+        <h2 id="about-title">필요해서 만들고,<br />직접 쓰면서 고칩니다.</h2>
+        <p>
+          게임 서버에서 시작한 관심이 인프라 구축과 서비스 운영으로 이어졌습니다. 서버와 네트워크를 직접 구성하고 여러
+          서비스를 운영하면서, 반복하던 작업을 줄이는 도구를 만들기 시작했습니다.
+        </p>
+        <p>
+          VM 운영 도구 Gjallar, 애플리케이션 배포 도구 Heimdall을 만들었습니다. 인프라를 이해하고 백엔드부터 화면까지
+          연결하며, 동료들의 개발과 운영에도 도움이 되는 플랫폼을 만들고 싶습니다.
+        </p>
+        <div id="infrastructure" class="lab-note">
+          <span>지금도 직접 운영 중</span><p>
+            Proxmox 3노드 기반의 홈랩에서 서비스를 운영합니다.<br />이 홈페이지도 직접 만든 Heimdall로 배포합니다.
+          </p>
+        </div>
+      </div>
+    </section>
 
     <section id="contact" class="contact-section" aria-labelledby="contact-title">
-      <div class="section-inner contact-layout">
-        <div>
-          <p class="section-label">Contact</p>
-          <h2 id="contact-title">Let's talk.</h2>
-        </div>
-
-        <div class="contact-links">
-          {
-            emailHref ? (
-              <a href={emailHref}>
-                <Icon name="tabler:mail" />
-                <span>Email</span>
-                <Icon name="tabler:arrow-up-right" />
-              </a>
-            ) : null
-          }
-          <a href={githubHref} target="_blank" rel="noreferrer">
-            <Icon name="tabler:brand-github" />
-            <span>GitHub</span>
-            <Icon name="tabler:arrow-up-right" />
-          </a>
-          <a href={portfolioProfile.resumePageHref}>
-            <Icon name="tabler:file-text" />
-            <span>Resume</span>
-            <Icon name="tabler:arrow-up-right" />
-          </a>
+      <div class="contact-top">
+        <p class="section-label">Contact</p><p>개발과 인프라에 관한 이야기, 언제든 환영합니다.</p>
+      </div>
+      <h2 id="contact-title">
+        <a href={`mailto:${portfolioProfile.email}`}>Let’s talk.<Icon name="tabler:arrow-up-right" /></a>
+      </h2>
+      <div class="contact-bottom">
+        <a class="email" href={`mailto:${portfolioProfile.email}`}>{portfolioProfile.email}</a><div class="text-links">
+          <a href={githubHref} target="_blank" rel="noreferrer">GitHub <Icon name="tabler:arrow-up-right" /></a><a
+            href="/resume">이력서 <Icon name="tabler:arrow-up-right" /></a
+          >
         </div>
       </div>
     </section>
   </div>
 
   <footer slot="footer" class="home-footer">
-    <p>© 2026 Cho YunHo</p>
-    <p>Platform Engineer · Seoul</p>
-    <a href="#top" aria-label="맨 위로 이동" title="맨 위로">
-      <Icon name="tabler:arrow-up" />
-    </a>
+    <span>© 2026 Yunho Cho</span><a href="#top">Back to top <Icon name="tabler:arrow-up" /></a>
   </footer>
 </PageLayout>
 
 <style>
   :global(html) {
-    scroll-padding-top: 4rem;
+    scroll-behavior: smooth;
+    scroll-padding-top: 2rem;
   }
-
-  :global(body) {
-    letter-spacing: 0;
+  :global(html body.bg-page) {
+    background: #faf9f6;
+    color: #181818;
   }
-
-  .home-header {
-    position: sticky;
-    top: 0;
-    z-index: 60;
-    height: 4rem;
-    border-bottom: 1px solid #31343a;
-    background: #0c0d10;
-    color: #ffffff;
-  }
-
-  .header-inner {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    width: min(100% - 2rem, 92rem);
-    height: 100%;
-    margin: 0 auto;
-  }
-
-  .home-brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    width: max-content;
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .brand-mark {
-    display: grid;
-    width: 2rem;
-    height: 2rem;
-    place-items: center;
-    border: 1px solid #ffffff;
-    font-family: var(--aw-font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-
-  .brand-name,
-  .desktop-nav,
-  .section-label,
-  .project-meta,
-  .project-tags,
-  .project-link,
-  .flow-toolbar,
-  .flow-result,
-  .product-frame figcaption,
+  .home-page,
+  .home-header,
   .home-footer {
-    font-family: var(--aw-font-mono);
+    font-family: var(--aw-font-sans), sans-serif;
+    letter-spacing: 0;
   }
-
-  .brand-name {
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-
-  .desktop-nav {
-    display: flex;
-    align-items: center;
-    gap: 1.75rem;
-    font-size: 0.72rem;
-    text-transform: uppercase;
-  }
-
-  .desktop-nav a,
-  .header-actions a {
-    color: #d9dbe1;
-    text-decoration: none;
-  }
-
-  .desktop-nav a:hover,
-  .header-actions a:hover {
-    color: #ffffff;
-  }
-
-  .header-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-  }
-
-  .header-actions a {
-    display: grid;
-    width: 2.25rem;
-    height: 2.25rem;
-    place-items: center;
-    border: 1px solid #31343a;
-    border-radius: 4px;
-  }
-
-  .header-actions :global(svg) {
-    width: 1.1rem;
-    height: 1.1rem;
-  }
-
   .home-page {
-    overflow: hidden;
-    background: #f4f1e9;
-    color: #111214;
-    font-family: var(--aw-font-sans), sans-serif;
-    letter-spacing: 0;
+    --ink: #181818;
+    --muted: #65645f;
+    --rule: #d5d4cf;
+    color: var(--ink);
+    background: #faf9f6;
   }
-
-  .home-page :where(section[id]) {
-    scroll-margin-top: 4rem;
+  .home-header,
+  .hero,
+  .work-section,
+  .about-section,
+  .home-footer {
+    width: min(100% - 112px, 1440px);
+    margin-inline: auto;
   }
-
-  .home-page :where(a, button):focus-visible,
-  .home-header :where(a, button):focus-visible,
-  .home-footer :where(a, button):focus-visible {
-    outline: 3px solid #ffffff;
-    outline-offset: 3px;
+  a {
+    color: inherit;
+    text-decoration: none;
   }
-
-  .home-hero {
-    position: relative;
-    height: calc(100svh - 5.5rem);
-    min-height: 36rem;
-    max-height: 48rem;
-    background: #0c0d10;
-    color: #ffffff;
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
   }
-
-  .hero-background,
-  .hero-shade {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+  a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 7px;
   }
-
-  .hero-background {
-    object-fit: cover;
-    object-position: center top;
-    filter: grayscale(1) contrast(1.15) brightness(0.42);
+  :global(svg) {
+    width: 1.1em;
+    height: 1.1em;
+    flex-shrink: 0;
   }
-
-  .hero-shade {
-    background: #0c0d10;
-    opacity: 0.72;
+  .home-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 108px;
+    color: #181818;
   }
-
-  .hero-inner {
-    position: relative;
-    z-index: 1;
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .brand span {
+    font-size: 13px;
+    font-weight: 400;
+    color: #65645f;
+  }
+  nav {
+    display: flex;
+    gap: 36px;
+    font-size: 14px;
+  }
+  nav a {
+    padding-block: 12px;
+  }
+  .hero {
+    min-height: 570px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: min(100% - 2rem, 92rem);
-    height: 100%;
-    margin: 0 auto;
-    padding: 3.5rem 0 1.5rem;
-  }
-
-  .hero-copy {
-    max-width: 66rem;
-  }
-
-  .hero-eyebrow {
-    margin: 0 0 1.75rem;
-    color: #c7cad2;
-    font-family: var(--aw-font-mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-  }
-
-  .hero-copy h1 {
-    margin: 0;
-    color: #ffffff;
-    font-family: var(--aw-font-sans), sans-serif;
-    font-size: 3.25rem;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: 0.95;
-  }
-
-  .hero-copy h1 span {
-    display: block;
-  }
-
-  .hero-description {
-    max-width: 39rem;
-    margin: 1.75rem 0 0;
-    color: #d7d9df;
-    font-size: 1rem;
-    line-height: 1.7;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-
-  .hero-actions a,
-  .project-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    font-size: 0.82rem;
-    font-weight: 600;
-    text-decoration: none;
-  }
-
-  .hero-actions a {
-    color: #ffffff;
-  }
-
-  .hero-actions :global(svg),
-  .project-link :global(svg) {
-    width: 1rem;
-    height: 1rem;
-  }
-
-  .project-index {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border: 1px solid #4a4d55;
-    background: #0c0d10;
-  }
-
-  .project-index a {
-    display: flex;
-    min-height: 4.25rem;
-    align-items: center;
-    gap: 0.75rem;
-    border-right: 1px solid #4a4d55;
-    color: #ffffff;
-    padding: 0.85rem 1rem;
-    text-decoration: none;
-  }
-
-  .project-index a:last-child {
-    border-right: 0;
-  }
-
-  .project-index a::before {
-    width: 0.5rem;
-    height: 2rem;
-    background: var(--project-color);
-    content: '';
-  }
-
-  .project-index a:hover {
-    background: #1b1d22;
-  }
-
-  .project-index span {
-    color: #9296a0;
-    font-family: var(--aw-font-mono);
-    font-size: 0.7rem;
-  }
-
-  .project-index strong {
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
-
-  .index-blue {
-    --project-color: #3e66f3;
-  }
-  .index-red {
-    --project-color: #f04f43;
-  }
-  .index-green {
-    --project-color: #16a66a;
-  }
-  .index-yellow {
-    --project-color: #f2b927;
-  }
-
-  .section-inner,
-  .project-inner {
-    width: min(100% - 2rem, 92rem);
-    margin: 0 auto;
-  }
-
-  .projects-intro {
-    border-bottom: 1px solid #17181b;
-    background: #f4f1e9;
-  }
-
-  .intro-layout {
-    display: grid;
-    grid-template-columns: 0.7fr 2fr;
-    gap: 2rem;
-    align-items: end;
-    padding: 4.5rem 0 3rem;
-  }
-
-  .section-label {
-    margin: 0;
-    font-size: 0.7rem;
-    font-weight: 500;
-    text-transform: uppercase;
-  }
-
-  .projects-intro h2 {
-    margin: 0;
-    font-size: 2.4rem;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: 1.05;
-  }
-
-  .project-band {
-    border-bottom: 1px solid #17181b;
-  }
-
-  .project-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
-    gap: 5rem;
-    align-items: center;
-    min-height: 40rem;
-    padding: 5rem 0;
-  }
-
-  .project-band.reverse .project-copy {
-    order: 2;
-  }
-
-  .project-band.reverse .project-visual {
-    order: 1;
-  }
-
-  .tone-blue {
-    background: #3158df;
-    color: #ffffff;
-  }
-
-  .tone-red {
-    background: #ee5648;
-    color: #151515;
-  }
-
-  .tone-green {
-    background: #159865;
-    color: #111214;
-  }
-
-  .tone-yellow {
-    background: #f2bd35;
-    color: #151515;
-  }
-
-  .project-meta {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-  }
-
-  .project-meta span:first-child {
-    display: grid;
-    width: 2.25rem;
-    height: 2.25rem;
-    place-items: center;
-    border: 1px solid currentColor;
-  }
-
-  .project-copy h2 {
-    margin: 2.75rem 0 0;
-    color: inherit;
-    font-family: var(--aw-font-sans), sans-serif;
-    font-size: 4.5rem;
-    font-weight: 650;
-    letter-spacing: 0;
-    line-height: 0.95;
-  }
-
-  .project-title-link {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .project-title-link:hover {
-    text-decoration: underline;
-    text-decoration-thickness: 0.08em;
-    text-underline-offset: 0.12em;
-  }
-
-  .project-statement {
-    max-width: 36rem;
-    margin: 1.25rem 0 0;
-    font-size: 1.55rem;
-    font-weight: 600;
-    line-height: 1.25;
-  }
-
-  .project-description {
-    max-width: 34rem;
-    margin: 1.25rem 0 0;
-    font-size: 1rem;
-    line-height: 1.75;
-  }
-
-  .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem 1rem;
-    margin: 2rem 0 0;
-    padding: 1.1rem 0 0;
-    border-top: 1px solid currentColor;
-    list-style: none;
-    font-size: 0.7rem;
-  }
-
-  .project-tags li:not(:last-child)::after {
-    margin-left: 1rem;
-    content: '/';
-    opacity: 0.65;
-  }
-
-  .project-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-
-  .project-link {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 0.3rem;
-  }
-
-  .project-visual {
-    min-width: 0;
-  }
-
-  .visual-link {
-    position: relative;
-    display: block;
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .visual-link .flow-board,
-  .visual-link .product-frame {
-    transition:
-      transform 180ms ease,
-      box-shadow 180ms ease;
-  }
-
-  .visual-link:hover .flow-board,
-  .visual-link:hover .product-frame {
-    transform: translate(-0.25rem, -0.25rem);
-    box-shadow: 1.15rem 1.15rem 0 #111214;
-  }
-
-  .visual-cta {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    border: 1px solid #111214;
-    border-radius: 4px;
-    background: #111214;
-    color: #ffffff;
-    padding: 0.55rem 0.7rem;
-    font-family: var(--aw-font-mono);
-    font-size: 0.68rem;
-    text-transform: uppercase;
-  }
-
-  .visual-cta :global(svg) {
-    width: 0.9rem;
-    height: 0.9rem;
-  }
-
-  .flow-board,
-  .product-frame {
-    border: 2px solid #111214;
-    border-radius: 4px;
-    background: #f7f5ee;
-    box-shadow: 0.9rem 0.9rem 0 #111214;
-    color: #111214;
-  }
-
-  .flow-toolbar {
-    display: flex;
-    min-height: 3rem;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 2px solid #111214;
-    padding: 0 1rem;
-    font-size: 0.68rem;
-  }
-
-  .flow-lights {
-    display: flex;
-    gap: 0.4rem;
-  }
-
-  .flow-lights i {
-    display: block;
-    width: 0.65rem;
-    height: 0.65rem;
-    border: 1px solid #111214;
-    border-radius: 50%;
-  }
-
-  .flow-lights i:nth-child(1) {
-    background: #ee5648;
-  }
-  .flow-lights i:nth-child(2) {
-    background: #f2bd35;
-  }
-  .flow-lights i:nth-child(3) {
-    background: #159865;
-  }
-
-  .flow-board ol {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .flow-board li {
-    display: flex;
-    min-height: 14rem;
-    flex-direction: column;
-    justify-content: space-between;
-    border-right: 1px solid #111214;
-    padding: 1.25rem;
-  }
-
-  .flow-board li:last-child {
-    border-right: 0;
-  }
-
-  .flow-board li span {
-    font-family: var(--aw-font-mono);
-    font-size: 0.72rem;
-  }
-
-  .flow-board li strong {
-    font-size: 1.1rem;
-    font-weight: 600;
-  }
-
-  .flow-result {
-    display: flex;
-    min-height: 3.5rem;
-    align-items: center;
-    gap: 0.65rem;
-    border-top: 2px solid #111214;
-    background: #dce4ff;
-    padding: 0 1rem;
-    font-size: 0.72rem;
-  }
-
-  .flow-result :global(svg) {
-    width: 1.15rem;
-    height: 1.15rem;
-    color: #3158df;
-  }
-
-  .product-frame {
-    overflow: hidden;
-    margin: 0;
-  }
-
-  .product-frame img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: #ffffff;
-    object-fit: contain;
-    object-position: center;
-  }
-
-  .product-frame img.object-top {
-    object-position: top;
-  }
-
-  .product-frame figcaption {
-    display: flex;
-    min-height: 3rem;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 2px solid #111214;
-    padding: 0 1rem;
-    font-size: 0.68rem;
-    text-transform: uppercase;
-  }
-
-  .more-work-section {
-    border-bottom: 1px solid #111214;
-    background: #f4f1e9;
-    color: #111214;
-  }
-
-  .more-work-inner {
-    display: grid;
-    grid-template-columns: 0.7fr 1.8fr;
-    gap: 5rem;
-    align-items: start;
-    padding: 3.5rem 0;
-  }
-
-  .more-work-card {
-    display: grid;
-    grid-template-columns: 9rem minmax(16rem, 1fr) minmax(15rem, 0.9fr) auto;
-    gap: 2rem;
-    align-items: center;
-    border-top: 2px solid #111214;
-    border-bottom: 1px solid #111214;
-    padding: 1.5rem 0;
-  }
-
-  .more-work-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-family: var(--aw-font-mono);
-    font-size: 0.68rem;
-    text-transform: uppercase;
-  }
-
-  .more-work-meta span:first-child {
-    display: grid;
-    width: 2rem;
-    height: 2rem;
-    place-items: center;
-    border: 1px solid #111214;
-    background: #f2bd35;
-  }
-
-  .more-work-copy h2 {
-    margin: 0;
-    color: inherit;
-    font-family: var(--aw-font-sans), sans-serif;
-    font-size: 1.65rem;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: 1;
-  }
-
-  .more-work-copy p {
-    margin: 0.5rem 0 0;
-    color: #54565c;
-    font-size: 0.88rem;
-    line-height: 1.6;
-  }
-
-  .more-work-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 0.75rem;
-    margin: 0;
-    padding: 0;
-    color: #54565c;
-    font-family: var(--aw-font-mono);
-    font-size: 0.66rem;
-    list-style: none;
-  }
-
-  .more-work-tags li:not(:last-child)::after {
-    margin-left: 0.75rem;
-    content: '/';
-  }
-
-  .more-work-links {
-    display: flex;
-    gap: 1rem;
-  }
-
-  .more-work-links a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: inherit;
-    font-family: var(--aw-font-mono);
-    font-size: 0.68rem;
-    text-decoration: underline;
-    text-underline-offset: 0.25rem;
-    text-transform: uppercase;
+    justify-content: center;
+    padding-block: 72px 112px;
+  }
+  h1 {
+    margin: 0 0 18px;
+    font-family: 'Inter Variable', sans-serif;
+    font-size: clamp(80px, 14.9vw, 222px);
+    font-weight: 450;
+    letter-spacing: -0.085em;
+    line-height: 1.12;
     white-space: nowrap;
   }
-
-  .more-work-links :global(svg) {
-    width: 0.9rem;
-    height: 0.9rem;
+  .hero-role {
+    margin: 0;
+    font-family: 'Inter Variable', sans-serif;
+    font-size: clamp(22px, 3vw, 42px);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1.4;
   }
-
-  .contact-section {
-    background: #3158df;
-    color: #ffffff;
+  .period {
+    font-weight: 350;
   }
-
-  .contact-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: end;
-    padding: 6rem 0;
+  .text-links,
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
   }
-
-  .contact-layout h2 {
-    margin: 1.5rem 0 0;
-    color: #ffffff;
-    font-family: var(--aw-font-sans), sans-serif;
-    font-size: 4rem;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: 1.08;
-  }
-
-  .contact-links {
-    border-top: 1px solid #ffffff;
-  }
-
-  .contact-links a {
-    display: grid;
-    grid-template-columns: 2rem 1fr 2rem;
-    gap: 1rem;
+  .text-links a,
+  .project-links a,
+  .home-footer a {
+    display: inline-flex;
     align-items: center;
-    min-height: 4.5rem;
-    border-bottom: 1px solid #ffffff;
-    color: #ffffff;
-    text-decoration: none;
+    gap: 9px;
   }
-
-  .contact-links a:hover {
-    background: #2448c8;
+  .work-section {
+    padding-top: 58px;
+    padding-bottom: 110px;
   }
-
-  .contact-links :global(svg) {
-    width: 1.15rem;
-    height: 1.15rem;
+  .section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--ink);
   }
-
-  .home-footer {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    min-height: 5rem;
-    padding: 0 max(1rem, calc((100% - 92rem) / 2));
-    border-top: 1px solid #31343a;
-    background: #0c0d10;
-    color: #a9acb4;
-    font-size: 0.68rem;
-  }
-
-  .home-footer p {
+  .section-heading h2 {
+    font-size: 14px;
+    font-weight: 500;
     margin: 0;
   }
-
-  .home-footer p:nth-child(2) {
-    justify-self: center;
+  .section-heading span,
+  .section-label {
+    font-size: 12px;
+    color: var(--muted);
   }
-
-  .home-footer a {
+  .project {
     display: grid;
-    width: 2.5rem;
-    height: 2.5rem;
-    place-items: center;
+    grid-template-columns: 55px 1fr 1fr;
+    gap: 25px;
+    padding: 45px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .project-number {
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 4px;
+  }
+  .project-category {
+    font-size: 11px;
+    color: var(--muted);
+    margin: 0 0 18px;
+  }
+  .project h3 {
+    margin: 0 0 13px;
+    font-family: 'Inter Variable', sans-serif;
+    font-weight: 450;
+    font-size: clamp(30px, 3.6vw, 48px);
+    letter-spacing: -0.045em;
+    line-height: 1.15;
+  }
+  .project h3 a {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .project h3 :global(svg) {
+    width: 0.55em;
+    height: 0.55em;
+  }
+  .project-statement {
+    font-size: 13px;
+    margin: 0;
+    line-height: 1.7;
+  }
+  .project-summary {
+    padding-top: 1px;
+    max-width: 440px;
     justify-self: end;
-    border: 1px solid #4a4d55;
-    border-radius: 4px;
-    color: #ffffff;
   }
-
-  .home-footer :global(svg) {
-    width: 1rem;
-    height: 1rem;
+  .project-summary > p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.9;
+    margin: 0 0 22px;
+    word-break: keep-all;
   }
-
-  @media (min-width: 640px) {
-    .hero-copy h1 {
-      font-size: 4.5rem;
+  .project-links {
+    font-size: 12px;
+  }
+  .about-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 60px;
+    padding: 70px 0 140px;
+  }
+  .section-label {
+    margin: 7px 0 0;
+  }
+  .about-copy {
+    max-width: 670px;
+  }
+  .about-copy h2 {
+    margin: 0 0 38px;
+    font-size: clamp(30px, 3.5vw, 48px);
+    line-height: 1.4;
+    letter-spacing: -0.05em;
+    font-weight: 450;
+  }
+  .about-copy > p {
+    margin: 0 0 22px;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--muted);
+    word-break: keep-all;
+  }
+  .lab-note {
+    border-top: 1px solid var(--rule);
+    margin-top: 42px;
+    padding-top: 25px;
+  }
+  .lab-note span {
+    font-size: 12px;
+  }
+  .lab-note p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.9;
+    margin-top: 12px;
+  }
+  .contact-section {
+    background: #181818;
+    color: #faf9f6;
+    padding: 60px max(56px, calc((100% - 1440px) / 2)) 65px;
+  }
+  .contact-top,
+  .contact-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .contact-top .section-label,
+  .contact-top > p {
+    color: #b8b7b2;
+    font-size: 12px;
+    margin: 0;
+  }
+  .contact-section h2 {
+    font-size: clamp(40px, 7.8vw, 112px);
+    font-weight: 400;
+    letter-spacing: -0.065em;
+    line-height: 1.3;
+    margin: 64px 0;
+  }
+  .contact-section h2 a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .contact-section h2 :global(svg) {
+    width: 0.9em;
+    height: 0.9em;
+  }
+  .contact-bottom {
+    font-size: 13px;
+  }
+  .home-footer {
+    display: flex;
+    justify-content: space-between;
+    padding-block: 26px;
+    font-size: 11px;
+    color: #65645f;
+  }
+  @media (min-width: 1536px) {
+    :global(html) {
+      font-size: 16px;
     }
   }
-
-  @media (min-width: 1024px) {
-    .hero-copy h1 {
-      font-size: 6.75rem;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .hero-copy h1 {
-      font-size: 7.5rem;
-    }
-  }
-
-  @media (max-width: 900px) {
-    .header-inner {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .desktop-nav {
-      display: none;
-    }
-
-    .header-actions {
-      position: absolute;
-      top: 0.875rem;
-      right: 0;
-    }
-
-    .intro-layout,
-    .project-inner,
-    .more-work-inner,
-    .contact-layout {
-      grid-template-columns: 1fr;
-    }
-
-    .intro-layout,
-    .project-inner,
-    .more-work-inner,
-    .contact-layout {
-      gap: 2.5rem;
-    }
-
-    .project-inner {
-      min-height: 0;
-      padding: 4.5rem 0;
-    }
-
-    .more-work-card {
-      grid-template-columns: 8rem 1fr;
-    }
-
-    .more-work-tags,
-    .more-work-links {
-      grid-column: 2;
-    }
-
-    .project-band.reverse .project-copy,
-    .project-band.reverse .project-visual {
-      order: initial;
-    }
-
-    .project-copy h2 {
-      font-size: 3.5rem;
-    }
-
-    .contact-layout h2 {
-      font-size: 3rem;
-    }
-  }
-
-  @media (max-width: 639px) {
-    .brand-name {
-      display: none;
-    }
-
-    .header-actions {
-      display: none;
-    }
-
-    .home-hero {
-      min-height: 36rem;
-    }
-
-    .hero-inner {
-      padding-top: 2.5rem;
-    }
-
-    .hero-copy h1 {
-      font-size: 2.25rem;
-      letter-spacing: -0.04em;
-      line-height: 1;
-    }
-
-    .hero-description {
-      max-width: 20rem;
-      font-size: 0.94rem;
-    }
-
-    .project-index {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .project-index a {
-      min-height: 3.25rem;
-      padding: 0.6rem 0.7rem;
-    }
-
-    .project-index a:nth-child(2) {
-      border-right: 1px solid #4a4d55;
-    }
-
-    .project-index a:nth-child(-n + 2) {
-      border-bottom: 0;
-    }
-
-    .project-index a::before {
-      width: 0.35rem;
-      height: 1.4rem;
-    }
-
-    .project-index strong {
-      font-size: 0.78rem;
-    }
-
-    .intro-layout {
-      padding: 3.5rem 0 2.5rem;
-    }
-
-    .projects-intro h2 {
-      font-size: 2rem;
-    }
-
-    .project-inner {
-      padding: 3.75rem 0 4rem;
-    }
-
-    .project-copy h2 {
-      margin-top: 2rem;
-      font-size: 3rem;
-    }
-
-    .project-statement {
-      font-size: 1.35rem;
-    }
-
-    .more-work-inner {
-      gap: 1.5rem;
-      padding: 3rem 0;
-    }
-
-    .more-work-card {
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
-      padding: 1.5rem 0;
-    }
-
-    .more-work-tags,
-    .more-work-links {
-      grid-column: auto;
-    }
-
-    .more-work-links {
-      padding-top: 0.25rem;
-    }
-
-    .flow-board,
-    .product-frame {
-      box-shadow: 0.5rem 0.5rem 0 #111214;
-    }
-
-    .flow-board ol {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .flow-board li {
-      min-height: 8rem;
-      border-bottom: 1px solid #111214;
-    }
-
-    .flow-board li:nth-child(2) {
-      border-right: 0;
-    }
-
-    .flow-board li:nth-child(n + 3) {
-      border-bottom: 0;
-    }
-
-    .contact-layout h2 {
-      font-size: 2.5rem;
-    }
-
-    .contact-layout {
-      padding: 5rem 0;
-    }
-
+  @media (max-width: 760px) {
+    .home-header,
+    .hero,
+    .work-section,
+    .about-section,
     .home-footer {
-      grid-template-columns: 1fr auto;
+      width: calc(100% - 40px);
     }
-
-    .home-footer p:nth-child(2) {
+    .home-header {
+      min-height: 84px;
+      height: auto;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+      padding-block: 18px;
+    }
+    .brand {
+      font-size: 16px;
+    }
+    .brand span {
       display: none;
     }
+    nav {
+      gap: 15px;
+      font-size: 11px;
+    }
+    .hero {
+      min-height: 430px;
+      padding-block: 70px 110px;
+    }
+    h1 {
+      font-size: 14.7vw;
+      margin: 0 0 16px;
+    }
+    .work-section {
+      padding-top: 50px;
+      padding-bottom: 35px;
+    }
+    .project {
+      grid-template-columns: 24px 1fr;
+      gap: 18px;
+      padding: 30px 0;
+    }
+    .project h3 {
+      font-size: 34px;
+    }
+    .project-summary {
+      grid-column: 2;
+      max-width: none;
+      justify-self: stretch;
+    }
+    .project-summary > p {
+      font-size: 13px;
+    }
+    .about-section {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 55px 0 75px;
+    }
+    .about-copy h2 {
+      font-size: 31px;
+      margin-bottom: 26px;
+    }
+    .about-copy > p {
+      font-size: 14px;
+    }
+    .contact-section {
+      padding: 36px 20px;
+    }
+    .contact-top {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .contact-section h2 {
+      margin: 42px 0;
+      font-size: 10vw;
+    }
+    .contact-bottom {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .email {
+      overflow-wrap: anywhere;
+    }
   }
-
-  @media (max-width: 359px) {
-    .hero-copy h1 {
-      font-size: 2rem;
+  @media (prefers-reduced-motion: reduce) {
+    :global(html) {
+      scroll-behavior: auto;
     }
   }
 </style>

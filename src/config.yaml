@@ -1,6 +1,5 @@
 site:
   name: 조윤호
-  # TODO: Replace with the production portfolio domain for canonical / OG URLs.
   site: 'https://yoonman.page'
   base: '/'
   trailingSlash: false
@@ -12,7 +11,7 @@ metadata:
   title:
     default: 조윤호 | Platform Engineer
     template: '%s | 조윤호'
-  description: 'Git 기반 Preview 배포와 Kubernetes·Proxmox 운영 도구를 구현한 플랫폼 엔지니어 조윤호의 포트폴리오입니다.'
+  description: '서버를 직접 운영하며 필요한 도구를 만드는 플랫폼 엔지니어 조윤호. Heimdall, Gjallar, K-Le-PaaS의 개발 경험과 포트폴리오를 소개합니다.'
   robots:
     index: true
     follow: true

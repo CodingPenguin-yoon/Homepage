@@ -12,48 +12,36 @@ export interface ResumeProject {
   summary: string;
   highlights: string[];
   stack: string[];
-  evidence?: {
-    label: string;
-    href: string;
-  }[];
+  evidence?: { label: string; href: string }[];
 }
 
 export const resumeProfile = {
   name: '조윤호',
   nameEn: 'Yunho Cho',
   role: 'Platform Engineer',
-  secondaryRole: 'Deployment Automation / Infrastructure Operations',
-  statement: '배포와 인프라 운영을 자동화하고, 실행 후 실제 상태까지 확인합니다.',
+  secondaryRole: '클라우드·인프라 플랫폼 개발',
+  statement: '직접 운영하며 만난 불편을, 다시 쓸 수 있는 도구로 만듭니다.',
+  title: '인프라를 이해하고 필요한 기능을 개발합니다.',
   summary:
-    'Heimdall에서 저장소와 서비스 구성을 한 번 등록한 뒤 commit 선택과 요청만으로 Docker 빌드부터 Preview URL·public hostname 연결까지 이어지는 흐름을 구현했습니다. K-Le-PaaS에서는 자연어 요청을 Kubernetes 운영 API와 Prometheus 조회로 연결했고, Gjallar에서는 Proxmox 변경을 승인·중복 방지·사후 확인 절차로 통제했습니다. 두 개인 프로젝트는 직접 운영하는 3노드 Proxmox 환경에서 검증합니다.',
+    '게임 서버 운영에서 출발해, 서버와 네트워크를 직접 구축하고 여러 개인 서비스를 배포·운영해 왔습니다. 그 과정에서 반복하던 VM 설정과 배포 준비를 줄이려고, 화면과 API부터 서버 작업까지 직접 개발했습니다. 현재 Gjallar로 개인 서버의 VM을 관리하고, Heimdall로 홈페이지와 여러 개인 서비스를 배포해 운영하고 있습니다. 직접 쓰면서 발견한 문제를 고치고, 실행 결과가 실제 서비스와 자원에 반영됐는지 확인합니다.',
   location: 'Seoul, Korea',
-  updated: 'Updated 2026.08',
+  updated: 'Updated 2026.09',
 } as const;
 
 export const resumeInfrastructure = {
-  title: '3노드 Proxmox 환경에서 정상·실패 경로를 확인했습니다.',
+  title: '개인 서비스를 직접 운영하는 홈랩.',
   summary:
-    'Proxmox 노드 3대와 IPFire로 분리한 RED·GREEN·ORANGE 네트워크, NAS/NFS, WireGuard·OCI 리버스 프록시를 운영합니다. 이 환경에 Heimdall과 Gjallar를 배포하고, 라우팅 실패와 Proxmox 작업 상태를 확인했습니다.',
-  items: ['Proxmox VE 3-node', 'IPFire network segmentation', 'NAS / NFS storage', 'WireGuard / OCI reverse proxy'],
+    'Proxmox VE 3노드와 Linux VM에서 개인 프로젝트와 서비스를 운영합니다. IPFire로 관리망과 서비스망을 분리하고, NAS/NFS와 WireGuard·OCI를 연결해 스토리지와 외부 접근 경로를 구성했습니다.',
+  items: ['Proxmox VE 3노드', 'IPFire 관리망·서비스망 분리', 'NAS / NFS', 'WireGuard / OCI'],
+  pocTitle: 'OpenStack 멀티노드 PoC',
+  poc: 'Kolla-Ansible로 멀티노드 환경을 구성하고 인스턴스 통신, 테넌트 네트워크·라우터, Floating IP와 Cinder 볼륨 연결을 확인했습니다. 단일 Controller를 사용하는 기능 검증 환경입니다.',
 } as const;
 
 export const resumeSkillGroups: ResumeSkillGroup[] = [
-  {
-    label: 'Platform / Runtime',
-    items: ['Linux', 'Docker', 'Kubernetes', 'Proxmox VE', 'NCP'],
-  },
-  {
-    label: 'Backend / Data',
-    items: ['Python', 'FastAPI', 'PostgreSQL', 'REST API', 'WebSocket'],
-  },
-  {
-    label: 'Delivery / Observability',
-    items: ['Git', 'NGINX', 'Prometheus', 'GitHub Actions'],
-  },
-  {
-    label: 'Network / Storage',
-    items: ['IPFire', 'WireGuard', 'NFS', 'NAS'],
-  },
+  { label: 'Infrastructure', items: ['Linux', 'Proxmox VE', 'Docker', 'Kubernetes'] },
+  { label: 'Development', items: ['Python', 'FastAPI', 'PostgreSQL', 'React'] },
+  { label: 'Delivery', items: ['Git', 'NGINX', 'GitHub Actions'] },
+  { label: 'Monitoring / Network', items: ['Prometheus', 'REST API', 'IPFire', 'WireGuard', 'NAS / NFS'] },
 ];
 
 export const resumeProjects: ResumeProject[] = [
@@ -61,50 +49,20 @@ export const resumeProjects: ResumeProject[] = [
     id: 'heimdall',
     period: '2026.08 - 현재',
     type: '개인 프로젝트',
-    role: '개인 개발 / 배포 Control Plane·Worker / React UI',
-    title: '저장소 등록부터 공개 Preview URL 연결까지 자동화하는 배포 도구',
+    role: '설계·개발·검증 / 배포 API·Worker·React UI',
+    title: '반복되는 애플리케이션 배포 준비를 줄이는 도구',
     summary:
-      '새 서비스를 공개할 때마다 반복하던 작업을 줄이기 위해, 공개 GitHub 저장소의 main commit을 Docker로 빌드하고 Preview URL·project hostname까지 연결하는 과정을 하나의 배포 요청으로 묶었습니다.',
+      '서비스마다 실행 환경과 접속 경로를 수동으로 준비하던 불편을 줄이기 위해 만들었습니다. 공용 서버에서 저장소를 빌드하고, 새 버전의 응답을 확인한 뒤 서비스 경로를 전환합니다.',
     highlights: [
-      '저장소와 서비스 구성을 한 번 등록하면 exact SHA checkout부터 이미지 빌드·환경변수 주입·candidate 실행까지 자동으로 이어지도록 구현했습니다.',
-      '모든 서비스의 health check 후 Gateway를 전환해 Preview URL과 public hostname을 유지하고, 실패하면 기존 Preview를 계속 제공하도록 테스트했습니다.',
+      '홈페이지와 GitHub 트래커를 비롯한 여러 개인 서비스를 배포해 운영하고 있습니다.',
+      '개인 환경에서 서버 준비를 제외한 애플리케이션 배포를 3분 이내에 완료했습니다.',
+      '배포할 커밋과 설정을 고정하고, Docker 빌드·실행·응답 확인·NGINX 경로 전환과 프로젝트별 PostgreSQL DB 제공을 연결했습니다.',
     ],
-    stack: ['Git', 'Docker', 'NGINX', 'FastAPI', 'React', 'PostgreSQL'],
+    stack: ['Python', 'FastAPI', 'Docker', 'NGINX', 'PostgreSQL', 'React'],
     evidence: [
       {
-        label: 'Failure-path test',
-        href: 'https://github.com/CodingPenguin-yoon/heimdall_final/blob/main/backend/tests/test_nginx_gateway.py',
-      },
-      {
-        label: 'Integration test',
-        href: 'https://github.com/CodingPenguin-yoon/heimdall_final/blob/main/backend/tests/integration/test_worker_runtime_smoke.py',
-      },
-    ],
-  },
-  {
-    id: 'klepaas',
-    period: '2025.09 - 2025.12',
-    type: '팀 프로젝트',
-    role: '담당 기여 / 자연어 명령·Kubernetes API / NKS 모니터링 / URL 데이터',
-    title: '자연어 기반 Kubernetes 운영 플랫폼',
-    summary: '웹과 Slack의 자연어 요청을 해석하고 Kubernetes·NCP에서 실행한 결과를 전달하는 팀 프로젝트입니다.',
-    highlights: [
-      'Gemini 해석 결과를 Kubernetes 상태·로그·URL 조회와 재시작·스케일링·버전 롤백 API에 연결했습니다.',
-      'NKS 4종 지표 조회 API·WebSocket과 Ingress·SourceDeploy URL 저장·조회를 구현해 PR #28·#42·#63으로 병합했습니다.',
-    ],
-    stack: ['Kubernetes', 'Gemini', 'FastAPI', 'Prometheus', 'NCP'],
-    evidence: [
-      {
-        label: 'PR #28',
-        href: 'https://github.com/K-Le-PaaS/backend-hybrid/pull/28',
-      },
-      {
-        label: 'PR #42',
-        href: 'https://github.com/K-Le-PaaS/backend-hybrid/pull/42',
-      },
-      {
-        label: 'PR #63',
-        href: 'https://github.com/K-Le-PaaS/backend-hybrid/pull/63',
+        label: '회귀 테스트',
+        href: 'https://github.com/CodingPenguin-yoon/heimdall_final/blob/9c4df9e264e274678ffacabc0510aebecb3aeff0/backend/tests/test_nginx_gateway.py',
       },
     ],
   },
@@ -112,14 +70,41 @@ export const resumeProjects: ResumeProject[] = [
     id: 'gjallar',
     period: '2026.05 - 현재',
     type: '개인 프로젝트',
-    role: '개인 개발 / FastAPI API / React UI / Proxmox 연동',
-    title: 'VM 변경을 통제하고 실제 상태를 확인하는 Proxmox 운영 도구',
-    summary: 'Proxmox의 현재 상태를 조회하고, VM 변경을 승인·중복 방지·사후 확인 절차로 통제하는 운영 콘솔입니다.',
+    role: '설계·개발·검증 / Proxmox API 연동·React UI',
+    title: 'VM 상태를 확인하고 반복되는 설정을 줄이는 운영 도구',
+    summary:
+      'VM마다 사양과 IP를 다시 입력하고 주소 충돌을 겪어 만들었습니다. VM Profile로 사양을 재사용하고, Proxmox의 실제 자원과 주소 조건을 생성 전에 확인합니다. 현재 개인 서버의 VM 관리에 사용합니다.',
     highlights: [
-      'Proxmox 연결을 unconfigured·live·degraded로 구분하고, live가 아니면 inventory 의존 화면을 닫도록 했습니다.',
-      'VM 변경에 승인·idempotency·target lock을 적용하고, 저장된 UPID와 VM 상태 GET으로 실행 결과를 재확인했습니다.',
+      'VM 생성에는 승인과 최종 확인을, VM 시작에는 명시적 확인과 중복 방지를 적용했습니다. 요청 접수 뒤 작업 종료와 실제 VM 상태를 다시 확인합니다.',
+      '2026년 6월 홈랩 시험에서 VM 생성·기동, guest-agent 응답, 요청한 IP 설정과 cloud-init 완료를 확인했습니다.',
     ],
-    stack: ['Proxmox API', 'FastAPI', 'React', 'PostgreSQL'],
+    stack: ['Proxmox API', 'Python', 'FastAPI', 'PostgreSQL', 'React'],
+    evidence: [
+      {
+        label: '현재 사전 검사 테스트',
+        href: 'https://github.com/CodingPenguin-yoon/Gjallar/blob/ee00450553ff835296f9342528f0f096ad59ca38/backend/tests/vm_create/test_preflight_plan_contract.py',
+      },
+    ],
+  },
+  {
+    id: 'klepaas',
+    period: '2025.09 - 2025.12',
+    type: '2인 팀 프로젝트',
+    role: '개인 담당 / 자연어 운영 제어·인프라 모니터링',
+    title: '자연어 운영 제어와 Git 연동 자동 배포를 제공하는 플랫폼',
+    summary:
+      '여러 도구와 명령을 익혀야 하는 운영 부담을 줄이기 위해 2인 팀으로 만들었습니다. 웹·Slack의 자연어 요청을 운영 기능에 연결하고, Git 변경에 따른 자동 배포와 자원 상태 확인을 한 플랫폼에서 제공합니다.',
+    highlights: [
+      '자연어 요청을 구조화하고 허용된 작업으로 제한해, 상태·로그 조회와 재시작·파드 수 조절 API에 연결했습니다.',
+      'Prometheus 설치·수집 대상 구성, CPU·메모리·디스크·네트워크 조회 API와 대시보드 연결을 담당했습니다. 화면은 REST API를 10초 간격으로 조회합니다.',
+      '팀의 Git 연동 자동 배포 시연에서 서로 다른 두 배포가 1분 58초·4분 30초에 완료됐습니다. 팀 시연 결과이며 평균이나 보장 시간은 아닙니다.',
+    ],
+    stack: ['Kubernetes', 'NCP', 'Python', 'FastAPI', 'Prometheus'],
+    evidence: [
+      { label: '배포 시연', href: 'https://www.youtube.com/watch?v=tY4XmxIsDok&t=111s' },
+      { label: '자연어 제어 시연', href: 'https://www.youtube.com/watch?v=tY4XmxIsDok&t=571s' },
+      { label: '모니터링 구현 PR', href: 'https://github.com/K-Le-PaaS/backend-hybrid/pull/42' },
+    ],
   },
 ];
 

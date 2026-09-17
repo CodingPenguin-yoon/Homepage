@@ -1,0 +1,140 @@
+---
+import '@fontsource-variable/inter';
+import { Icon } from 'astro-icon/components';
+import PageLayout from '~/layouts/PageLayout.astro';
+import { Content, getHeadings } from '~/documents/portfolio.md';
+import '~/assets/styles/portfolio-document.css';
+
+const metadata = {
+  title: '조윤호 | Portfolio',
+  description: '직접 만들고 운영한 Heimdall, Gjallar, K-Le-PaaS와 홈랩을 소개합니다.',
+  ignoreTitleTemplate: true,
+};
+
+const contents = getHeadings().filter(({ depth }) => depth === 2);
+const projects = [
+  {
+    name: 'Heimdall',
+    summary: '자동 배포 플랫폼',
+    href: '#heimdall',
+  },
+  {
+    name: 'Gjallar',
+    summary: 'Proxmox 자동화 콘솔',
+    href: '#gjallar',
+  },
+  {
+    name: 'K-Le-PaaS',
+    summary: '자연어 기반 Kubernetes 운영 플랫폼',
+    href: '#k-le-paas',
+  },
+];
+---
+
+<PageLayout metadata={metadata}>
+  <header slot="header" class="portfolio-document-header">
+    <div class="portfolio-document-header-inner">
+      <a class="portfolio-document-brand" href="/" aria-label="조윤호 홈페이지">
+        <strong>조윤호</strong>
+        <span>Yunho Cho</span>
+      </a>
+      <nav aria-label="주요 메뉴">
+        <a href="/">Home</a>
+        <a href="/portfolio" aria-current="page">Portfolio</a>
+        <a href="/resume">Resume</a>
+      </nav>
+      <a
+        class="portfolio-document-header-download"
+        href="/portfolio/yunho-cho-portfolio.pdf"
+        download
+        aria-label="포트폴리오 PDF 다운로드"
+        title="포트폴리오 PDF 다운로드"
+      >
+        <Icon name="tabler:download" />
+      </a>
+    </div>
+  </header>
+
+  <div class="portfolio-document-page" id="top">
+    <section class="portfolio-document-hero" aria-labelledby="portfolio-title">
+      <div class="portfolio-document-container">
+        <p class="portfolio-document-kicker">Selected work / 2025 — 2026</p>
+        <h1 id="portfolio-title">Portfolio.</h1>
+        <div class="portfolio-document-hero-bottom">
+          <p>직접 만들고 운영한 도구와 플랫폼.</p>
+          <a class="portfolio-document-download" href="/portfolio/yunho-cho-portfolio.pdf" download>
+            포트폴리오 PDF <span>9 pages</span><Icon name="tabler:download" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <nav class="portfolio-project-index" aria-label="프로젝트 바로가기">
+      <div class="portfolio-document-container">
+        {
+          projects.map((project, index) => (
+            <a href={project.href} class="portfolio-project-link">
+              <div>
+                <span>0{index + 1}</span>
+                <Icon name="tabler:arrow-down-right" />
+              </div>
+              <strong>{project.name}</strong>
+              <p>{project.summary}</p>
+            </a>
+          ))
+        }
+      </div>
+    </nav>
+
+    <div class="portfolio-document-layout portfolio-document-container">
+      <aside class="portfolio-document-sidebar">
+        <nav aria-label="포트폴리오 목차">
+          <p>Contents</p>
+          <ol>
+            {
+              contents.map((heading, index) => (
+                <li>
+                  <a href={`#${heading.slug}`}>
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    {heading.text}
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+          <a class="portfolio-document-back-top" href="#top">
+            맨 위로<Icon name="tabler:arrow-up" />
+          </a>
+        </nav>
+      </aside>
+      <article class="portfolio-document-body" aria-label="조윤호 포트폴리오 본문">
+        <Content />
+      </article>
+    </div>
+
+    <section class="portfolio-document-contact" aria-labelledby="portfolio-contact-title">
+      <div class="portfolio-document-container">
+        <div>
+          <p class="portfolio-document-kicker">Contact</p>
+          <h2 id="portfolio-contact-title">Let’s talk.</h2>
+        </div>
+        <div>
+          <a href="mailto:code.penguin.yoon@gmail.com"
+            >code.penguin.yoon@gmail.com<Icon name="tabler:arrow-up-right" /></a
+          >
+          <a href="https://github.com/CodingPenguin-yoon" target="_blank" rel="noreferrer">
+            GitHub<Icon name="tabler:arrow-up-right" />
+          </a>
+          <a href="/resume">이력서 보기<Icon name="tabler:arrow-right" /></a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer slot="footer" class="portfolio-document-footer">
+    <div class="portfolio-document-container">
+      <a href="/"><Icon name="tabler:arrow-left" />Home</a>
+      <span>© 2026 Cho Yunho</span>
+    </div>
+  </footer>
+</PageLayout>
